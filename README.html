@@ -1,0 +1,51 @@
+<h1 id="bear-bones-page-hover-box">Bear Bones Page Hover Box</h1>
+<hr>
+<h2 id="features-">Features:</h2>
+<hr>
+<ul>
+<li>Based on BEM</li>
+<li>Easily works with Font Awesome (or other icon set) to include an icon in front of title</li>
+<li>Template system</li>
+<li>Option to display thumbnail</li>
+<li>Thumbnail size selection</li>
+<li>Featured image override</li>
+<li>Excerpt override</li>
+</ul>
+<h2 id="template-system-">Template System:</h2>
+<hr>
+<p>Based on the <a href="http://wordpress.org/extend/plugins/flexible-posts-widget">Flexible Posts Widget plugin</a> 
+by David Paul Ellenwood (dpedesign.com) which we use frequently in our projects 
+<strong>License:</strong> GPL2 or later<br><strong>License URI:</strong> <a href="http://www.gnu.org/licenses/gpl-2.0.html">http://www.gnu.org/licenses/gpl-2.0.html</a>  </p>
+<h3 id="to-use-a-custom-html-output-template">To use a custom HTML output template</h3>
+<ol>
+<li>Create a folder called &#39;bb-page-hover-box&#39; in the root folder of the currently active theme.</li>
+<li>Copy <code>default.php</code> from within the plugin&#39;s <code>views</code> folder into your theme&#39;s new <code>bb-page-hover-box</code> folder.</li>
+<li>Rename your theme&#39;s <code>default.php</code> template file to a name of your choice. Example: <code>home-widget-hover.php</code>.</li>
+<li>Go to &#39;Appearance&#39; &gt; &#39;Widgets&#39; in WordPress to configure an instance of the widget.</li>
+<li>In the &#39;Template Filename&#39; field choose the name of the template file you added to your theme. Example: <code>Home Widget</code></li>
+</ol>
+<h2 id="featured-image-override">Featured Image Override</h2>
+<hr>
+<ol>
+<li>Add a custom field to the post/page with the name &quot;page-hover-box-image&quot;</li>
+<li>Copy the url of the image to use into the value field</li>
+<li>Save/Update</li>
+</ol>
+<h2 id="excerpt-override">Excerpt Override</h2>
+<hr>
+<ol>
+<li>Add a custom field to the post/page with the name &quot;page-hover-box-excerpt&quot;</li>
+<li>Enter the text to be used into the value field</li>
+<li>Save/Update</li>
+</ol>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<hr>
+<h3 id="how-do-i-find-a-post-s-id-">How do I find a post&#39;s ID?</h3>
+<p>Per a <a href="http://wordpress.org/support/topic/where-can-find-the-post-id">WordPress support thread</a>:</p>
+<p>Go to Posts in your WordPress admin, and click the post you need the ID of. Then, if you look in the address bar of your browser, you&#39;ll see something like this:</p>
+<p><code>http://example.com/wp-admin/post.php?post=1280&amp;action=edit</code></p>
+<p>The number, in this case 1280, is the post ID.</p>
+<h3 id="how-can-i-style-the-images-titles-or-other-widget-output-a-certain-way-">How can I style the images, titles or other widget output a certain way?</h3>
+<p>Ths plugin intentionally does NOT add any styling of it&#39;s own.  To adjust the font size, color, alignment, image size, etc. of any output from this widget, you&#39;ll need to edit your theme&#39;s styles. However, for your convenience, we have included scss and css files of examples.</p>
+<h3 id="does-this-plugin-widget-insert-any-styles-or-scripts-into-my-site-">Does this plugin/widget insert any styles or scripts into my site?</h3>
+<p>NO! This plugin does not add styles or scripts to your public theme.  The plugin is intentionally designed to work within your existing theme.  </p>
