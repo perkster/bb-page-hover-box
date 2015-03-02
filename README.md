@@ -2,7 +2,6 @@
 *******************************
 
 ## Features: ##
----------------
 - Based on BEM
 - Easily works with Font Awesome (or other icon set) to include an icon in front of title
 - Template system
@@ -13,7 +12,6 @@
 
 
 ## Template System: ##
-----------------------
 Based on the [Flexible Posts Widget plugin](http://wordpress.org/extend/plugins/flexible-posts-widget) 
 by David Paul Ellenwood (dpedesign.com) which we use frequently in our projects 
 **License:** GPL2 or later  
@@ -27,21 +25,18 @@ by David Paul Ellenwood (dpedesign.com) which we use frequently in our projects
 1. In the 'Template Filename' field choose the name of the template file you added to your theme. Example: `Home Widget`
 
 ## Featured Image Override ##
------------------------------
 1. Add a custom field to the post/page with the name "page-hover-box-image"
 2. Copy the url of the image to use into the value field
 3. Save/Update
 
 ## Excerpt Override ##
-----------------------
 1. Add a custom field to the post/page with the name "page-hover-box-excerpt"
 2. Enter the text to be used into the value field
 3. Save/Update
 
 
-
-## Frequently Asked Questions ##
 ----------------------------------
+## Frequently Asked Questions ##
 
 ### How do I find a post's ID? ###
 Per a [WordPress support thread](http://wordpress.org/support/topic/where-can-find-the-post-id):
