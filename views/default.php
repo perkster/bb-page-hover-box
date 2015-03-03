@@ -41,7 +41,7 @@ if( $phb_info ):  //prar($phb_info);
 					<div class="bb-phb__content-wrapper"><div class="bb-phb__content-inner">
 						<div class="bb-phb__title-text"><p><?php echo $phb_info['title']; ?></p></div>
 						<div class="bb-phb__content">
-							<p><?php echo bb_phb_excerpt( $phb_info['post_id'], 30 ); ?></p>
+							<p><?php echo $phb_info['excerpt']; ?></p>
 							<p class="bb-phb__link-text-wrapper"><span class="bb-phb__link-text"><?php echo $phb_info['link_text']; ?></span></p>
 						</div>
 					</div></div>

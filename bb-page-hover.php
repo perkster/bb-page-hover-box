@@ -170,7 +170,12 @@ class bb_page_hover_box_widget extends WP_Widget {
 		//Pass arguments to be used in template
 		$phb_info = $instance;
 		
+		//Get the excerpt
+		$phb_info['excerpt'] = bb_phb_excerpt( $phb_info['post_id'] );
+		//prar( $phb_info );
+		
 		// Get and include the template we're going to use
+		//prar($template);
 		include( $this->get_template( $template ) );
 		
 		// Be sure to reset any post_data before proceeding
@@ -436,20 +441,15 @@ class bb_page_hover_box_widget extends WP_Widget {
 add_action( 'widgets_init', create_function( '', 'register_widget("bb_page_hover_box_widget");' ) );
 
 
-function bb_phb_excerpt($post_id, $length = 35, $more = '...', $echo = false){
-	
+function bb_phb_excerpt($post_id = null, $length = 35, $more = '...', $echo = false){
+	//prar($post_id);
 	if($post_id) {
 		$post = get_post($post_id); //Gets post ID
 		//$the_excerpt = ($the_post->post_excerpt) ? $the_post->post_excerpt : $the_post->post_content;
 		//$the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
-		
-	} else {
-		global $post;
-		//prar($post);
-		$post_id = $post->ID;
-		//$the_excerpt = ($post->post_excerpt) ? $post->post_excerpt : get_the_content('');
+		$bbphb_excerpt = get_post_meta( $post_id, 'page-hover-box-excerpt', true );
 	}
-	$bbphb_excerpt = get_post_meta( $post_id, 'page-hover-box-excerpt', true );
+	
 	if( $bbphb_excerpt ) {
 		//prar($bbphb_excerpt);
 		$excerpt_length = $length; //Sets excerpt length by word count
@@ -463,7 +463,7 @@ function bb_phb_excerpt($post_id, $length = 35, $more = '...', $echo = false){
 		endif;
 		$the_excerpt = $bbphb_excerpt;
 	} else {
-		$the_excerpt = bb_excerpt($length, $post_id, $echo, $more );
+		$the_excerpt = bb_phb_excerpt_from_post( $post_id, $length, false, $more );
 	}
 
     //$the_excerpt = '<p>' . $the_excerpt . '</p>';
@@ -474,6 +474,46 @@ function bb_phb_excerpt($post_id, $length = 35, $more = '...', $echo = false){
 	}
 }
 
+function bb_phb_excerpt_from_post( $id = null, $excerpt_length = 55, $echo = true, $excerpt_more = '...' ) {
+
+	//prar($id);
+    if($id) {
+		$post = get_post($id);
+		//prar($post);
+		
+		$title = get_the_title($post->ID);  //prar($title);
+		if( $post->post_excerpt ) {
+			$excerpt = $post->post_excerpt;
+		} else {
+			$excerpt = $post->post_content;
+		}
+		//prar($excerpt);
+		
+		if($title == $excerpt) $excerpt = $post->post_content;
+			 
+		$excerpt = strip_shortcodes( $excerpt );
+		//$excerpt = wp_strip_all_tags( $excerpt ); prar($excerpt);
+		$excerpt = strip_tags( strip_shortcodes( $excerpt ) ); //Strips tags, images and other shortcodes
+		//prar($excerpt);
+		   
+
+		$words = preg_split("/[\n\r\t ]+/", $excerpt, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
+		if ( count($words) > $excerpt_length ) {
+			array_pop($words);
+			$excerpt = implode(' ', $words);
+			$excerpt = $excerpt . $excerpt_more;
+		} else {
+			$excerpt = implode(' ', $words);
+		}
+		
+		if($echo) {
+			echo apply_filters('the_content', $excerpt);
+		} else {
+			return $excerpt;
+		}
+	}
+}
+
 function phb_image($post_id, $thumbsize, $img_attr) {
 //Check for image
 	//check for override
@@ -481,8 +521,7 @@ function phb_image($post_id, $thumbsize, $img_attr) {
 		$classes = ( isset( $img_attr['class'] ) ? $img_attr['class'] : 'bb-phb__img' );
 		//prar($thumbsize);
 		if($image_override) {
-			//<img width="900" height="353" src="http://jkcollections.net/jkwp/wp-content/uploads/2015/02/homepage_section_image.jpg" class="bb-phb__img home-phb__img wp-post-image" alt="homepage_section_image">
-			$image_id = pn_get_attachment_id_from_url ($image_override);
+			$image_id = bb_phb_get_attachment_id_from_url ($image_override);
 			$image = wp_get_attachment_image( $image_id, $thumbsize, false,  $img_attr);
 		} else {
 			//display featured image
@@ -492,7 +531,7 @@ function phb_image($post_id, $thumbsize, $img_attr) {
 		return $image;
 }
 
-function pn_get_attachment_id_from_url( $attachment_url = '' ) {
+function bb_phb_get_attachment_id_from_url( $attachment_url = '' ) {
  
 	global $wpdb;
 	$attachment_id = false;
