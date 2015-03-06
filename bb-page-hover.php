@@ -171,7 +171,14 @@ class bb_page_hover_box_widget extends WP_Widget {
 		$phb_info = $instance;
 		
 		//Get the excerpt
-		$phb_info['excerpt'] = bb_phb_excerpt( $phb_info['post_id'] );
+		$phb_info['excerpt'] = isset( $phb_info['excerpt_override'] ) ? $phb_info['excerpt_override'] : bb_phb_excerpt( $phb_info['post_id'] );
+		if( isset( $phb_info['link'] ) ) {
+			$linkID = url_to_postid( $phb_info['link'] ); //prar($linkID);
+			$phb_info['post_id'] = $linkID;
+		}
+		//Check if direct link and no id set
+		//if ( $phb_info['post_id'] = false && isset( $phb_info['link'] ) )  $phb_info['post_id'] =   ;
+		
 		//prar( $phb_info );
 		
 		// Get and include the template we're going to use
@@ -200,8 +207,11 @@ class bb_page_hover_box_widget extends WP_Widget {
 		$instance['post_id']		= (int) $new_instance['post_id'];
 		$instance['iconclass']		= strip_tags( $new_instance['iconclass'] );
 		$instance['icon']		= ( isset(  $new_instance['icon'] ) ? (int) $new_instance['icon'] : '0' );
+		$instance['link']		= strip_tags( $new_instance['link'] );
 		$instance['link_text']		= strip_tags( $new_instance['link_text'], '<i>' );
 		$instance['thumbnail']	= ( isset(  $new_instance['thumbnail'] ) ? (int) $new_instance['thumbnail'] : '0' );
+		$instance['img_override']		= strip_tags( $new_instance['img_override'] );
+		$instance['excerpt_override']		= strip_tags( $new_instance['excerpt_override'] );
 		$instance['thumbsize']	= ( in_array ( $new_instance['thumbsize'], $this->thumbsizes ) ? $new_instance['thumbsize'] : '' );
 		$instance['template']	= ( array_key_exists( $new_instance['template'], $this->templates ) ? $new_instance['template'] : 'default.php' );
 		$instance['cur_tab']	= (int) $new_instance['cur_tab'];
@@ -225,9 +235,12 @@ class bb_page_hover_box_widget extends WP_Widget {
 			'post_id'	=> '',
 			'icon'	=> '0',
 			'iconclass'	=> 'fa fa-',
+			'link' 		=> '',
 			'link_text'		=> 'More',
 			'thumbnail' => '0',
 			'thumbsize' => '',
+			'img_override' => '',
+			'excerpt_override' => '',
 			'template'	=> 'default.php',
 			'cur_tab'	=> '0',
 		) );
@@ -441,14 +454,18 @@ class bb_page_hover_box_widget extends WP_Widget {
 add_action( 'widgets_init', create_function( '', 'register_widget("bb_page_hover_box_widget");' ) );
 
 
-function bb_phb_excerpt($post_id = null, $length = 35, $more = '...', $echo = false){
+function bb_phb_excerpt($post_id = null, $url = null, $length = 35, $more = '...', $echo = false){
 	//prar($post_id);
 	if($post_id) {
 		$post = get_post($post_id); //Gets post ID
 		//$the_excerpt = ($the_post->post_excerpt) ? $the_post->post_excerpt : $the_post->post_content;
 		//$the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
-		$bbphb_excerpt = get_post_meta( $post_id, 'page-hover-box-excerpt', true );
+		
+	} elseif( $url ) {
+		$post_id = url_to_postid( $url );
+		$post = get_post($post_id);
 	}
+	$bbphb_excerpt = get_post_meta( $post_id, 'page-hover-box-excerpt', true );
 	
 	if( $bbphb_excerpt ) {
 		//prar($bbphb_excerpt);
@@ -514,10 +531,10 @@ function bb_phb_excerpt_from_post( $id = null, $excerpt_length = 55, $echo = tru
 	}
 }
 
-function phb_image($post_id, $thumbsize, $img_attr) {
+function phb_image($post_id, $thumbsize, $img_attr, $image_override = null) {
 //Check for image
 	//check for override
-		$image_override = get_post_meta( $post_id, 'page-hover-box-image', true ); //prar($image_override);
+		if( !$image_override ) $image_override = get_post_meta( $post_id, 'page-hover-box-image', true ); //prar($image_override);
 		$classes = ( isset( $img_attr['class'] ) ? $img_attr['class'] : 'bb-phb__img' );
 		//prar($thumbsize);
 		if($image_override) {

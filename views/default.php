@@ -26,7 +26,7 @@ if( $phb_info ):  //prar($phb_info);
 	//Check for image
 	if($phb_info['thumbnail']) {
 		$img_attr = array ( 'class' => 'bb-phb__img' );
-		$image = phb_image($phb_info['post_id'], $phb_info['thumbsize'], $img_attr);		
+		$image = phb_image($phb_info['post_id'], $phb_info['thumbsize'], $img_attr, $phb_info['img_override']);		
 	}
 	if( !isset($image) || !$image ) {
 		$image = '<div class="bb-phb__img--none">&nbsp;</div>';

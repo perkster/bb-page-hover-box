@@ -1,5 +1,11 @@
 /************ Theme / Objects / PAGE HOVER BOX ***********/
 
+/* NOTES
+ * Normally don't include font-size & line-height, however icon & title have 
+ * these set because they need to be equal otherwise you end up with some pretty strange 
+ * behavior depending on the size of the icons.
+ */
+ 
 .bb-phb {
 	overflow: hidden;
     position: relative;
@@ -17,10 +23,11 @@
 .bb-phb__info {
 	position: absolute;
 	top: 0;
-	margin: 4%;
-	//width: 100%;
 	display: table-row;
-	width: 92%; //width should be 100% - margin (L/R)
+	
+	//width should be 100% - margin (L/R)
+	margin: 4%;
+	width: 92%; 
 }
 
 .bb-phb__content-wrapper, .bb-phb__icon-wrapper {
@@ -32,7 +39,7 @@
 	padding-right: 0.25em;
 }
 .bb-phb__icon-inner {
-	//padding: 0.25em;
+	//padding: 0.25em; padding better handled on a per theme basis
 	height: 2em;
 	max-height: 2em;
 	min-width: 1.75em;
