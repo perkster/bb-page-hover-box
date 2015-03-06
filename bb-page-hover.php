@@ -165,24 +165,16 @@ class bb_page_hover_box_widget extends WP_Widget {
 		if ( empty( $template ) )
 			$template = 'default.php';
 		
-		// Get the post to display
-		//$phb_post = get_post( $post_id );
 		//Pass arguments to be used in template
 		$phb_info = $instance;
 		
 		//Get the excerpt
 		$phb_info['excerpt'] = isset( $phb_info['excerpt_override'] ) ? $phb_info['excerpt_override'] : bb_phb_excerpt( $phb_info['post_id'] );
-		if( isset( $phb_info['link'] ) ) {
-			$linkID = url_to_postid( $phb_info['link'] ); //prar($linkID);
-			$phb_info['post_id'] = $linkID;
-		}
 		//Check if direct link and no id set
-		//if ( $phb_info['post_id'] = false && isset( $phb_info['link'] ) )  $phb_info['post_id'] =   ;
-		
+		if( isset( $phb_info['link'] ) && $phb_info['post_id'] < 1 ) $phb_info['post_id'] = url_to_postid( $phb_info['link'] ); //prar($linkID);
 		//prar( $phb_info );
 		
 		// Get and include the template we're going to use
-		//prar($template);
 		include( $this->get_template( $template ) );
 		
 		// Be sure to reset any post_data before proceeding
@@ -458,8 +450,6 @@ function bb_phb_excerpt($post_id = null, $url = null, $length = 35, $more = '...
 	//prar($post_id);
 	if($post_id) {
 		$post = get_post($post_id); //Gets post ID
-		//$the_excerpt = ($the_post->post_excerpt) ? $the_post->post_excerpt : $the_post->post_content;
-		//$the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
 		
 	} elseif( $url ) {
 		$post_id = url_to_postid( $url );
@@ -483,7 +473,6 @@ function bb_phb_excerpt($post_id = null, $url = null, $length = 35, $more = '...
 		$the_excerpt = bb_phb_excerpt_from_post( $post_id, $length, false, $more );
 	}
 
-    //$the_excerpt = '<p>' . $the_excerpt . '</p>';
 	if($echo) {
 		echo apply_filters('the_content', $the_excerpt);
 	} else {
@@ -496,7 +485,6 @@ function bb_phb_excerpt_from_post( $id = null, $excerpt_length = 55, $echo = tru
 	//prar($id);
     if($id) {
 		$post = get_post($id);
-		//prar($post);
 		
 		$title = get_the_title($post->ID);  //prar($title);
 		if( $post->post_excerpt ) {
@@ -504,7 +492,6 @@ function bb_phb_excerpt_from_post( $id = null, $excerpt_length = 55, $echo = tru
 		} else {
 			$excerpt = $post->post_content;
 		}
-		//prar($excerpt);
 		
 		if($title == $excerpt) $excerpt = $post->post_content;
 			 
@@ -532,17 +519,18 @@ function bb_phb_excerpt_from_post( $id = null, $excerpt_length = 55, $echo = tru
 }
 
 function phb_image($post_id, $thumbsize, $img_attr, $image_override = null) {
-//Check for image
-	//check for override
+
+		//check for override set on page/post
 		if( !$image_override ) $image_override = get_post_meta( $post_id, 'page-hover-box-image', true ); //prar($image_override);
+		
+		//set default img class
 		$classes = ( isset( $img_attr['class'] ) ? $img_attr['class'] : 'bb-phb__img' );
-		//prar($thumbsize);
-		if($image_override) {
-			$image_id = bb_phb_get_attachment_id_from_url ($image_override);
+		
+		//If image ovverride, get id
+		if( $image_override ) {
+			$image_id = bb_phb_get_attachment_id_from_url ( $image_override );
 			$image = wp_get_attachment_image( $image_id, $thumbsize, false,  $img_attr);
 		} else {
-			//display featured image
-			//$img_attr = array ( 'class' => 'bb-phb__img' );
 			$image = get_the_post_thumbnail( $post_id, $thumbsize, $img_attr );
 		}
 		return $image;
