@@ -9,9 +9,9 @@ if ( !defined( 'ABSPATH' ) )
 
 ?>
 <div class="bb-phb-widget">
-	<div class="section link">
+	<div class="section">
 		<h4><?php _e( 'Link options', $this->get_widget_text_domain() ); ?></h4>
-		<p>Select either id or url. If id is not empty, it will be used automatically.</p>
+		<p class="cf">Select either id or url. If id is not empty, it will be used automatically.</p>
 		<p class="cf">
           <label for="<?php echo $this->get_field_id( 'post_id' ); ?>"><?php _e( 'ID of post/page to show:', $this->get_widget_text_domain() ); ?></label> 
           <input id="<?php echo $this->get_field_id( 'post_id' ); ?>" name="<?php echo $this->get_field_name( 'post_id' ); ?>" type="text" value="<?php echo $post_id; ?>" />
@@ -21,14 +21,12 @@ if ( !defined( 'ABSPATH' ) )
           <input class="widefat" id="<?php echo $this->get_field_id( 'link' ); ?>" name="<?php echo $this->get_field_name( 'link' ); ?>" type="text" value="<?php echo $link; ?>" />
         </p>
 	</div>
-	<div class="section title">
-        <p>
+	<div class="section display">
+		<h4><?php _e( 'Display Options', $this->get_widget_text_domain() ); ?></h4>
+		<p class="cf">
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Widget title:', $this->get_widget_text_domain() ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
         </p>
-	</div>
-	<h4><?php _e( 'Display Options', $this->get_widget_text_domain() ); ?></h4>
-	<div class="section icon">
 		<div class="check">
           <input class="bbphb-icons" id="<?php echo $this->get_field_id( 'icon' ); ?>" name="<?php echo $this->get_field_name( 'icon' ); ?>" type="checkbox" value="1" <?php checked( '1', $icon ); ?>/>
           <label style="font-weight:bold;" for="<?php echo $this->get_field_id( 'icon' ); ?>"><?php _e( 'Display icons?', $this->widget_text_domain ); ?></label> 
@@ -74,7 +72,7 @@ if ( !defined( 'ABSPATH' ) )
 	
 	<div class="section templates">
 		<h4><?php _e( 'Template Options', $this->get_widget_text_domain() ); ?></h4>
-		<p>
+		<p class="cf">
 			<label for="<?php echo $this->get_field_id( 'template' ); ?>"><?php _e( 'Template filename:', $this->get_widget_text_domain() ); ?></label>
 			<?php 
 			?>
